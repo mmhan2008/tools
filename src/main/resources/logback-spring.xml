@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProperty name="fileName" source="log.file.name"/>
+    <springProperty name="filePath" source="log.file.path"/>
+    <springProperty name="rootLevel" source="log.level.root" />
+    <springProperty name="maxFileSize" source="log.maxsize"/>
+    <!--控制台日志输出配置-->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %green([%t]) %magenta(%-5p) %cyan(%c) - %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+
+    <!--日志文件配置info-->
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--如果只是想要 Info 级别的日志，只是过滤 info 还是会输出 Error 日志，因为 Error 的级别高，
+        所以我们使用下面的策略，可以避免输出 Error 的日志-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${filePath}/${fileName}_info.%d  %i.log</FileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d %thread %-5level -%file:%line- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--日志文件配置error-->
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${filePath}/${fileName}_error.%d.log</fileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d %thread %-5level -%file:%line- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="${rootLevel}">
+        <appender-ref ref="fileInfoLog"/>
+        <appender-ref ref="fileErrorLog"/>
+        <appender-ref ref="consoleLog"/>
+    </root>
+    <!--<logger name="com.utils.dao" level="debug">-->
+    <!--<appender-ref ref="consoleLog"/>-->
+    <!--</logger>-->
+</configuration>
