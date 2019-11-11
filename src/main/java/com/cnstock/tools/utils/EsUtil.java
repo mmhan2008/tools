@@ -49,7 +49,7 @@ public class EsUtil {
             try {
                 client = new RestHighLevelClient(
                         RestClient.builder(
-                                new HttpHost("sh.es.resource.cnstock.com", 9200, "http")
+                                new HttpHost("127.0.0.1", 9200, "http")
                         )
                 );
             } catch (Exception e) {
