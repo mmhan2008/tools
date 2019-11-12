@@ -24,7 +24,7 @@
             <onMismatch>ACCEPT</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <FileNamePattern>${filePath}/${fileName}_info.%d  %i.log</FileNamePattern>
+            <FileNamePattern>${filePath}/${fileName}_info.%d-%i.log</FileNamePattern>
             <maxFileSize>${maxFileSize}</maxFileSize>
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
