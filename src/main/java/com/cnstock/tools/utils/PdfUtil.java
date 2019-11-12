@@ -25,7 +25,7 @@ public class PdfUtil {
         URLConnection connection = null;
         InputStream inputStream = null;
         PDDocument pdDocument = null;
-        StringBuilder builder = new StringBuilder();
+        StringBuffer buffer = new StringBuffer();
         try {
             url1 = new URL(url);
             connection = url1.openConnection();
@@ -35,7 +35,7 @@ public class PdfUtil {
             pdDocument = PDDocument.load(inputStream);
             StringWriter writer = new StringWriter();
             ts.writeText(pdDocument,writer);
-            builder.append(writer.getBuffer());
+            buffer.append(writer.getBuffer());
         } catch (IOException e) {
             return null;
         } catch (Exception e){
@@ -54,12 +54,12 @@ public class PdfUtil {
                 logger.info("",e);
             }
         }
-        return builder.toString();
+        return buffer.toString();
     }
 
 
     public static void main(String[] args) {
-        System.out.println(readPdfByUrl("http://pdf.dfcfw.com/pdf/H301_AP201910311370071903_1.pdf"));
+        System.out.println(readPdfByUrl("http://img.oss.cnstock.com/pdf/H301_AP201911111370634398_1.pdf"));
     }
 }
 
